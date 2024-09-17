@@ -4,14 +4,17 @@ import styled from "styled-components";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 // filled icon
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+// filled icon
+import ThumbDownAltIcon from '@mui/icons-material/ThumbDownAlt';
+// unfilled icon
 import ThumbDownOffAltOutlinedIcon from "@mui/icons-material/ThumbDownOffAltOutlined";
 import ReplyOutlinedIcon from "@mui/icons-material/ReplyOutlined";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
-import Comments from "../components/Comments";
-import Card from "../components/Card";
+import Comments from "../components/Components/Comments";
+import Card from "../components/Card/Card";
 import axios from 'axios';
 import { BACKEND_API }  from '../utils/Constants';
-import { Cookies, withCookies, useCookies } from 'react-cookie';
+import { Cookies, useCookies } from 'react-cookie';
 // import cookies from 'react-cookie';
 
 
@@ -134,49 +137,54 @@ const Subscribe = styled.button`
 
 
 const Video = () => {
-  const videoID = "663b46320646e041febb075f"
+  const videoID = "66d438d6c0b18d27092fa221"
   console.log("in video.jsx")
   const [videoUrl, setVideoUrl] = useState('');
   const [videoData, setVideoData] = useState({});
   const [videoLike, setVideoLike] = useState(false);
+  const [videoDislike, setVideoDislike] = useState(false);
 
 
   const [ setCookie, removeCookie] = useCookies(["accessTokenCookie"]);
   const cookies = new Cookies();
+  console.log("cookies: ",cookies);
+  
+  useEffect( ()=>{
+    console.log("in useEffect")
+    async function getVideo(){
+      const accessTokenCookie = cookies.get('accessTokenCookie');
+      const refreshTokenCookie = cookies.get('refreshTokenCookie');
+      console.log("accessTokenCookie: ",accessTokenCookie)
 
-  // useEffect( ()=>{
-  //   async function getVideo(){
-  //     const accessTokenCookie = cookies.get('accessTokenCookie');
-  //     const refreshTokenCookie = cookies.get('refreshTokenCookie');
-  //     console.log("accessTokenCookie: ",accessTokenCookie)
+      const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${accessTokenCookie}`
+      }
+      console.log("headers: ",headers)
+      // await fetch(`${BACKEND_API}/videos/${videoID}`,{ headers })
+      
+      // .then((res)=>{
+      //   console.log("res: ",res)
+      //   // console.log("res.json(): ",res.json())
+      //   return res.json()
+      // })
+      // .then((data)=>{
+      //   console.log("videoFile: ",data.data.videoFile);
+      //   console.log("data.data: ",data.data);
+      //   setVideoData(data.data);
+      //   // setVideoUrl(data.data.videoFile);
+      //   // setVideoUrl(videoData.videoFile);
+      //   console.log("videoUrl: ",videoUrl);
+      //   console.log("videoData: ",videoData);
+      // })
+      // .catch((error)=>{
+      //   console.log("can't get video, got an error")
+      //   console.log("error: ",error)
+      // })
+    }
+    getVideo()
+  },[])
 
-  //     const headers = {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${accessTokenCookie}`
-  //     }
-  //     console.log("headers: ",headers)
-  //     await fetch(`${BACKEND_API}/videos/663b46320646e041febb075f`,{ headers })
-  //     .then((res)=>{
-  //       console.log("res: ",res)
-  //       // console.log("res.json(): ",res.json())
-  //       return res.json()
-  //     })
-  //     .then((data)=>{
-  //       console.log("videoFile: ",data.data.videoFile);
-  //       console.log("data.data: ",data.data);
-  //       setVideoData(data.data);
-  //       // setVideoUrl(data.data.videoFile);
-  //       // setVideoUrl(videoData.videoFile);
-  //       console.log("videoUrl: ",videoUrl);
-  //       console.log("videoData: ",videoData);
-  //     })
-  //     .catch((error)=>{
-  //       console.log("can't get video, got an error")
-  //       console.log("error: ",error)
-  //     })
-  //   }
-  //   getVideo()
-  // },[])
 
 
   const likeTheVideo = async () => {
@@ -190,7 +198,7 @@ const Video = () => {
       'Authorization': `Bearer ${accessTokenCookie}`
     }
     console.log("headers: ",headers)
-    const res = await fetch(`${BACKEND_API}/likes/toggle/v/663b46320646e041febb075f`, { 
+    const res = await fetch(`${BACKEND_API}/likes/toggle/v/${videoID}`, { 
        method: "POST",
       headers: headers 
     })
@@ -199,6 +207,7 @@ const Video = () => {
     console.log("data.message: ",data.message);
     if(data.message === "Video Licked Successfully"){
       console.log("video liked");
+      setVideoDislike(false);
       setVideoLike(true);
     }else if(data.message === "Video Unlicked Successfully"){
       console.log("video unliked");
@@ -220,8 +229,41 @@ const Video = () => {
     return `${day} ${month} ${year}`;
 }
 
+const disLikeVideo = async () => {
+  console.log("disliking the video");
+
+  const accessTokenCookie = cookies.get('accessTokenCookie');
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${accessTokenCookie}`
+  }
+  console.log("headers: ",headers);
+
+  // await fetch(`${BACKEND_API}/likes/dislikeVideo/v/${videoID}`,
+  await fetch(`${BACKEND_API}/dislike/v/${videoID}`,
+    {
+      method:"POST",
+      headers:headers
+    }
+  ).then((res)=>{
+    return res.json()
+  }).then((data)=>{
+    console.log("data: ",data);
+    if(data.message == "Video Disliked Successfully"){
+      setVideoLike(false)
+      setVideoDislike(true)
+    }
+    else if(data.message == "Video Disliked Removed Successfully"){
+      setVideoLike(false)
+      setVideoDislike(false)
+    }
+  })
+}
+
 
   return (
+
     <Container>
       <Content>
         <VideoWrapper>
@@ -240,10 +282,10 @@ const Video = () => {
           <Info>{videoData ? videoData.views + " views" : " "} • {videoData ? formatDate(videoData.createdAt) : ""}</Info>
           <Buttons>
             <Button>
-              {videoLike ? <ThumbUpIcon onClick={likeTheVideo}/> : <ThumbUpOutlinedIcon onClick={likeTheVideo}/>} 123
+              {videoLike ? <ThumbUpIcon/> : <ThumbUpOutlinedIcon onClick={likeTheVideo}/>} 123
             </Button>
             <Button>
-              <ThumbDownOffAltOutlinedIcon /> Dislike
+              {videoDislike ? <ThumbDownAltIcon onClick={disLikeVideo}/> : <ThumbDownOffAltOutlinedIcon  onClick={disLikeVideo}/>} 
             </Button>
             <Button>
               <ReplyOutlinedIcon /> Share
@@ -268,7 +310,8 @@ const Video = () => {
           <Subscribe>SUBSCRIBE</Subscribe>
         </Channel>
         <Hr />
-        <Comments/>
+        {console.log("videoData in video.jsx: ",videoData)} 
+        {videoData?.videoFile ? <Comments video={videoData}/> : "" }
       </Content>
       <Recommendation>
         <Card type="sm"/>

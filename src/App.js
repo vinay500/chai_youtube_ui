@@ -7,20 +7,24 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Video from "./pages/Video";
 import SignIn from "./pages/SignIn";
+import ChannelHome from "./pages/ChannelHome/ChannelHome.jsx"
+import Counter from "./pages/ReduxCounter";
 
 
 
 const Container = styled.div`
   display: flex;
+  // width: 100%;
 `;
 
 const Main = styled.div`
   flex: 7;
   background-color: ${({ theme }) => theme.bg};
 `;
-const Wrapper = styled.div`
-  padding: 22px 96px;
-`;
+// const Wrapper = styled.div`
+//   padding: 22px 96px;
+// `;
+const Wrapper = styled.div;
 
 function App() {
   const [darkMode, setDarkMode] = useState(true);
@@ -32,17 +36,20 @@ function App() {
           <Menu darkMode={darkMode} setDarkMode={setDarkMode} />
           <Main>
             <Navbar />
-            <Wrapper>
+            {/* <Wrapper> */}
+            <div>
               <Routes>
                 <Route path="/">
                   <Route index element={<Home />} />
                   <Route path="signin" element={<SignIn />} />
-                  <Route path="video">
-                    <Route path=":id" element={<Video />} />
-                  </Route>
+                  <Route path="video" element={<Video />} />
+                    {/* <Route path=":id" element={<Video />} /> */}
+                  <Route path="channelHome" element={<ChannelHome />} />
+                  <Route path="counter" element={<Counter/>} />
                 </Route>
               </Routes>
-            </Wrapper>
+            {/* </Wrapper> */}
+            </div>
           </Main>
         </BrowserRouter>
       </Container>

@@ -1,0 +1,107 @@
+.container{
+  display: flex;
+  flex-direction: column;
+}
+
+.view_container {
+  display: flex;
+  gap: 10px;
+  margin: 30px 0;
+  color: #fff;
+}
+  
+.avatar {
+  width: 8%;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--text-color);
+  width: 82%;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.date {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-soft-color); /* You can replace with a specific color or use a CSS variable */
+  margin-left: 5px;
+}
+
+.text {
+  font-size: 14px;
+}
+.like_div{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.like_btn{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.unlike_btn{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.edit-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  width: 10%;
+  height: 110px;
+}
+.comment_option_button{
+  background: none;
+  border: none;
+  color: #fff;
+}
+
+.edit-buttons button {
+  width: 100%;
+  margin: 2px 0;
+}
+
+.edit_container{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.comment_input{
+  border: none;
+  border-bottom: 1px solid grey;
+  color: white;
+  background-color: transparent;
+  outline: none;
+  padding: 5px;
+  width: 100%;
+}
+
+.comment_div{ 
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+
+.comment_div_buttons{ 
+  border: 1px solid grey;
+    padding: 5px 10px;
+}
+
+.comment_div_buttons:hover{
+  cursor: pointer;
+}
+  

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import Card from "../components/Card";
+import Card from "../components/Card/Card";
 import axios from 'axios';
 import { BACKEND_API }  from '../utils/Constants';
-
-
+import { Cookies, useCookies } from 'react-cookie';
+import headers from "../utils/getAccessToken.js";
+// console.log("Headers: ",Headers);
 
 const Container = styled.div`
   display: flex;
@@ -16,12 +17,27 @@ const Home = () => {
 
   const [videos, setVideos] = useState([]);
 
-  useEffect(()=>{
-    const api_params = { "sortBy":"createdAt","sortType":"asc","query":"video",}
-    axios.post(`${BACKEND_API}/videos`,api_params)
+  useEffect(async ()=>{
+
+    console.log("Headers: ",headers)
+    
+    // Query parameters to be included in the URL
+    const queryParams = new URLSearchParams({
+      page: 1,      
+      limit: 10,     
+      query: '',    
+      sortBy: 'title',  
+      sortType: 'asc',  
+    }).toString();
+    await fetch(`${BACKEND_API}/videos?${queryParams}`,{ headers })
+    .then((res)=>{
+      console.log("res: ",res);
+      return res.json()
+    })
     .then((data)=>{
-      console.log("data: ",data);
-      
+      console.log("data: ",data)
+      console.log("data.data.docs: ",data.data.docs)
+      setVideos(data.data.docs)
     })
     .catch((error)=>{
       console.log("error: ",error);
@@ -30,6 +46,13 @@ const Home = () => {
 
   return (
     <Container>
+      { console.log("videos: ",videos) }
+      {
+        videos.map((video)=>(
+          <Card videoDetails = {video} />
+        ))
+      }
+      {/* <Card />
       <Card />
       <Card />
       <Card />
@@ -48,8 +71,7 @@ const Home = () => {
       <Card />
       <Card />
       <Card />
-      <Card />
-      <Card />
+      <Card /> */}
     </Container>
   );
 };

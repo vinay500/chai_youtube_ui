@@ -4,7 +4,11 @@ import axios from 'axios';
 import { BACKEND_API }  from '../utils/Constants';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
-// import { Navigate } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux'
+import { updateLogInInfo } from "../redux/slices/logInInfo.js"
+
+
+
 
 const Container = styled.div`
   display: flex;
@@ -72,7 +76,11 @@ const SignIn = () => {
   const [ loginDetails, setLoginDetails ] = useState({"email":"","password":""})
   const [accessTokenCookie, setAccessTokenCookie] = useCookies(['accessTokenCookie']);
   const [refreshTokenCookie, setRefreshTokenCookie] = useCookies(['refreshTokenCookie']);
+
   const navigate = useNavigate();
+  const username = useSelector((state) => state.logInInfo.logInInfo)
+  console.log("username: ",username)
+  const dispatch = useDispatch()
 
   const handleLogin = (e) => {
 
@@ -86,12 +94,17 @@ const SignIn = () => {
     axios.post(`${BACKEND_API}/users/login`, params)
     .then((response)=>{
       console.log("response: ",response);
-      console.log("response.data.accessToken: ",response.data.data.accessToken);
+      console.log("response.data.data: ", response.data.data);
+      console.log("response.data.data.accessToken: ",response.data.data.accessToken);
+      
       let intHours = 1;
       let expiryTime = new Date((intHours * 60) * 60 * 1000 + new Date());
+      
       setAccessTokenCookie('accessTokenCookie', response.data.data.accessToken, [{"expires": expiryTime}]);
       setRefreshTokenCookie('refreshTokenCookie', response.data.data.accessToken, [{"expires": expiryTime}]);
-      console.log("signin successful");
+      
+
+      dispatch(updateLogInInfo({ "isUserLoggedIn": true, "username": response.data.data.user}))
       navigate("/", { replace: true });
     })
     .catch((error)=>{

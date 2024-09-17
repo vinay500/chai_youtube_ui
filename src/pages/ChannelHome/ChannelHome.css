@@ -1,0 +1,114 @@
+.channel_home_page{
+  /* width: 100%; */
+}
+#channel_banner{
+  width: 100%;
+}
+.subscribe-button {
+    background-color: #cc0000;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .subscribe-button:hover {
+    background-color: #990000;
+  }
+  
+  .icon-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+  }
+  
+  .icon-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+  nav{
+    border-bottom: 0.5px solid white;
+    margin-bottom: 10px;
+  }
+  .nav-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .channel-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  #channel_info{
+    display: flex;
+    gap: 20px;
+  }
+  #channel_details{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #channel_name{
+    color: white;
+  }
+  #channel_subs_videos{
+    color: #aaa;
+  }
+  #channel_actions{
+    display: flex;
+  }
+  .nav-button {
+    background: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+  }
+  
+  .nav-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .icon-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    transition: background-color 0.2s;
+  }
+  
+  .icon-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+  }
+  
+  .material-icons {
+    font-size: 24px;
+  }
+  main{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .channel_video{
+    width: 30%;
+  }
